@@ -1,0 +1,50 @@
+Linux-Apps
+
+# how make a script exec on startUP
+
+ 
+	1. Create Your Bash Script:
+	2. Create a systemd Service File:
+
+	   Create a file with a `.service` extension, in the `/etc/systemd/system/` directory.
+	   
+	   	>> sudo nano /etc/systemd/system/myscript.service
+	  
+
+	3. Edit the `.service` File:
+
+	   Add the following content to the `myscript.service` file:
+
+	    [Unit]
+		Description=Run checkin_scrape.py before shutdown
+
+		[Service]
+		Type=oneshot
+		ExecStart=python3 /home/sandeep-vassar/Documents/scripts/checkInScape/checkin_scrape.py
+		ExecStop=python3 /home/sandeep-vassar/Documents/scripts/checkInScape/checkin_scrape.py
+
+		[Install]
+		WantedBy=multi-user.target
+
+	4. Reload systemd:
+
+	   After creating the service file, reload the systemd manager to read the new service.
+	   	>> sudo systemctl daemon-reload
+
+	5. Enable the Service:
+
+	   Enable the service to start at boot:
+	   	 >> sudo systemctl enable myscript.service
+	  
+	6. Start the Service:
+
+	   You can start the service immediately without rebooting:
+	   >> sudo systemctl start myscript.service
+
+	   	stop::
+	   
+	   >> sudo systemctl stop myscript.service
+	   
+	7. Check Status:
+
+	   sudo systemctl status myscript.service
